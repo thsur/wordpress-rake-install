@@ -104,8 +104,7 @@ namespace :wprake do
 
     :install_wordpress,
     :install_plugins,
-    :post_install,
-    :install_theme,
+    :post_install
 
     ] do
 
@@ -216,7 +215,7 @@ namespace :wprake do
 
       # To get some basic ideas on how to use WP's API, see:
       # http://wordpress.stackexchange.com/questions/84254/wp-org-api-accessing-plugin-downloads-today-value
-      info = %x(curl #{main.config[:endpoint]}#{slug}.json)
+      info = %x(curl --silent #{main.config[:endpoint]}#{slug}.json)
       info = JSON.parse(info)
 
       puts "Fetching #{slug}..."
@@ -234,27 +233,13 @@ namespace :wprake do
   end
 
   task :post_install do
-
-    puts 'Calling wp-post-install.php...'
-    call_endpoint(main, 'wp-post-install.php', 'users=.users')
+    puts
+    puts 'Calling post install...'
+    Rake::Task['wprake:call_endpoint'].invoke('wp-post-install.php', 'users=.users')
   end
 
-  task :install_theme do
-
-    themes = File.join(main.config[:wp_content], 'themes')
-    theme  = File.join(themes, '_s')
-
-    abort("'#{theme}' seems to be already installed.") if Dir.exists?(theme)
-
-    puts "Fetching theme..."
-
-    Dir.chdir(themes) do
-      sh 'wget -nv https://github.com/Automattic/_s/archive/master.zip && unzip -q master.zip && rm master.zip'
-      sh "mv _s-master _s"
-    end
-
-    puts 'Switching theme...'
-    call_endpoint(main, 'wp-actions.php', 'theme=_s')
+  task :call_endpoint, :endpoint, :args do |t, args|
+    call_endpoint(main, args[:endpoint].to_s, args[:args].to_s)
   end
 
   #

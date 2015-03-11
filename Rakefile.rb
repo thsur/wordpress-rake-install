@@ -15,3 +15,22 @@ load 'tasks/wprake/wp-rake.rake'
 task :default do
   sh 'rake --tasks wprake'
 end
+
+# Roll your own
+task :install_with_theme do
+
+  Rake::Task['wprake:install_everything'].invoke
+
+  puts "Fetching us a theme..."
+
+  Dir.chdir('content/themes') do
+    sh 'wget -nv https://github.com/Automattic/_s/archive/master.zip && unzip -q master.zip && rm master.zip'
+    sh "mv _s-master _s"
+  end
+
+  puts 'Switching theme...'
+
+  Rake::Task['wprake:call_endpoint'].invoke('wp-actions.php', 'theme=_s')
+end
+
+
