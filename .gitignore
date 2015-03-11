@@ -1,0 +1,12 @@
+
+config.yml
+
+.users
+.htaccess
+.mysql-options
+
+wordpress/
+content/
+
+*sublime-project
+*sublime-workspace

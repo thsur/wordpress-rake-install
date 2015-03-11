@@ -1,0 +1,103 @@
+#
+# WPRake config sample file
+#
+# Edit as you like & remember to save it as 'config.yml' when done.
+#
+
+# WordPress config & installation options
+
+config:
+
+  # 5-minute-install data
+  #
+  # Data to post to WP's 5-minute-installer.
+  #
+  blogtitle: wprake
+  user: su
+  email: su@example.com
+  blog_is_public: false
+
+  # Filesystem structure
+  #
+  # Separate your content from the system by setting a directory
+  # for each WordPress and wp-content.
+  #
+  # Use relative paths here. Both are turned into absolute ones later on.
+  #
+  wp: wordpress
+  wp_content: content
+
+  # Database
+  #
+  db_name: db_name
+  db_user: db_user
+  db_host: db_host
+  db_password: db_password
+  table_prefix: wp_
+
+  # Debug
+  #
+  wp_debug: true
+
+  # URLs
+  #
+  local: http://localhost/urgent-content
+  remote: http://urgent-content.org/
+
+  # Plugins to install
+  #
+  plugins:
+    - debug-bar
+    - user-switching
+    - wp-no-category-base
+    - category-checklist-tree
+    - my-category-order
+    - simple-custom-post-order
+
+  # WP API endpoint
+  endpoint: http://api.wordpress.org/plugins/info/1.0/
+
+  # Tmp dir (will be created if it doesnt exist).
+  tmp: tmp
+
+  # Name of MySQL options file (will be created if it doesnt exist).
+  # Used to communicate user & pass to MySQL when connecting via
+  # shell, so we don't need to expose them.
+  mysql_options: .mysql-options
+
+# Things to inject into wp-config.php
+#
+# Cf. http://codex.wordpress.org/Editing_wp-config.php
+
+wp_config_inject: |
+
+  // Custom paths
+
+  define(WP_SITEURL, '<%= URI.join(@config[:local], File.basename(@config[:wp])) %>');
+  define(WP_HOME,    '<%= @config[:local] %>');
+  define(WP_CONTENT_DIR, dirname(__FILE__).'/<%= File.basename(@config[:wp_content]) %>');
+  define(WP_CONTENT_URL, '<%= URI.join(@config[:local], File.basename(@config[:wp_content])) %>');
+
+# .htaccess default contents
+
+htaccess: |
+  DirectoryIndex index.php
+
+  # BEGIN WordPress
+  <IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase <%= URI(@config[:local]).path %>
+  RewriteRule ^index\.php$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . <%= URI(@config[:local]).path %>index.php [L]
+  </IfModule>
+  # END WordPress
+
+# MySQL options file contents
+
+mycnf: |
+  [client]
+  user=<%= @config[:db_user] %>
+  password=<%= @config[:db_password] %>
+

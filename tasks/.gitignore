@@ -1,0 +1,4 @@
+tasks/wprake
+!tasks/wprake/config.yml
+
+src/wordpress
