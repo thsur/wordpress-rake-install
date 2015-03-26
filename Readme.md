@@ -181,7 +181,7 @@ Add this to the sample Rakefile and call it with:
 
 It's that simple, really. Browse Rake's [Readme](https://github.com/ruby/rake) and Martin Fowler's [article about Rake](http://martinfowler.com/articles/rake.html) for much more info. Or just go ahead and do some Bash magic with it. 
 
-### Modifying wprake.rake
+### Adjusting The Installation Process
 
 Despite configuration and post installation, you finally might want to tweak the installation process itself. The place to look for is ['/tasks/wprake/wprake.rake']. It's the core of WPRake, so to speak, and it's fair to say that it might be in need of a cleanup. Never mind, though, and happily hack away. 
 
