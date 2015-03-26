@@ -76,7 +76,7 @@ When you also have mysqldump sitting on the Bash, it will be able to
 
 ## What It Does Not
 
-A lot. Because it has opinions, but only a few by default (unless you tweak it, that is). For example, it doesn't install a theme. But it gives an example of how to download one and switch to it. See the [sample Rakefile] for details.
+A lot. Though it has opinions, it only has a few by default (unless you tweak it, that is). For example, it doesn't install a theme. But it gives an example of how to download one and switch to it. See the [sample Rakefile] for details.
 
 ## <a id="requirements"></a>Requirements
 
