@@ -3,15 +3,15 @@
 #
 # All tasks will get executed in the directory the Rakefile's in.
 # This is also where WordPress gets installed when calling
-# rake with e.g. wprake:install_everything.
+# rake with wprake:install_everything.
 #
 
 require 'rake'
 
 # Load wp-rake
-load 'tasks/wprake/wp-rake.rake'
+load 'tasks/wprake/wprake.rake'
 
-# Use its tasks
+# Show its tasks
 task :default do
   sh 'rake --tasks wprake'
 end

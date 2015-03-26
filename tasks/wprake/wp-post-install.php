@@ -1,10 +1,9 @@
 <?php
 
-// Load WordPress environment
+// Load WordPress environment & get query string options
 //
-// This file is temporarily copied to the site's
-// root for easier HTTP access, so we need the
-// full include path here.
+// This file is temporarily copied to the site's root for easier
+// HTTP access, so we need to use its full include path.
 
 $options = require_once 'tasks/wprake/wp-load-env.php';
 
@@ -12,7 +11,7 @@ $options = require_once 'tasks/wprake/wp-load-env.php';
 
 if (!array_key_exists('users', $options) || !is_file($options['users'])) {
 
-    exit('Error: users-file missing.');
+    exit('Error: Users file missing.');
 }
 
 $users =  parse_ini_file($options['users'], true);

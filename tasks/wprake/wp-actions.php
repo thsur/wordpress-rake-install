@@ -1,10 +1,9 @@
 <?php
 
-// Load WordPress environment
+// Load WordPress environment & get query string options
 //
-// This file is temporarily copied to the site's
-// root for easier HTTP access, so we need the
-// full include path here.
+// This file is temporarily copied to the site's root for easier
+// HTTP access, so we need to use its full include path.
 
 $options = require_once 'tasks/wprake/wp-load-env.php';
 

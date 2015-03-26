@@ -50,9 +50,6 @@ config:
     - debug-bar
     - user-switching
     - wp-no-category-base
-    - category-checklist-tree
-    - my-category-order
-    - simple-custom-post-order
 
   # WP API endpoint
   endpoint: http://api.wordpress.org/plugins/info/1.0/

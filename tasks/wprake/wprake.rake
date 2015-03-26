@@ -23,9 +23,8 @@ require 'rake'
 require 'json'
 require 'securerandom'
 require 'net/http'
-require 'pp'
 
-require_relative 'wp-rake'
+require_relative 'wprake'
 
 # Helper to figure out whether or not
 # we have a running WordPress db.
@@ -68,11 +67,7 @@ main = WPRake::init(
 
 namespace :wprake do
 
-  task init: %W(.htaccess #{main.config[:mysql_options]} #{main.config[:tmp]})
-
-  file '.htaccess' do |task|
-    File.open(task.name, 'w', 0644) {|f| f.write(main.setup.htaccess)}
-  end
+  task init: %W(#{main.config[:mysql_options]} #{main.config[:tmp]})
 
   file main.config[:mysql_options] do |task|
     File.open(task.name, 'w', 0600) {|f| f.write(main.setup.mycnf)}
@@ -233,7 +228,11 @@ namespace :wprake do
   end
 
   task :post_install do
+
     puts
+    puts 'Creating .htaccess...'
+    File.open('.htaccess', 'w', 0644) {|f| f.write(main.setup.htaccess)}
+
     puts 'Calling post install...'
     Rake::Task['wprake:call_endpoint'].invoke('wp-post-install.php', 'users=.users')
   end
